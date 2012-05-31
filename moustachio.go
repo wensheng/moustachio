@@ -110,24 +110,13 @@ func upload(w http.ResponseWriter, r *http.Request) {
 	err = jpeg.Encode(&buf, i, nil)
 	check(err)
 
-	// Create an App Engine context for the client's request.
-	//ww
-	//c := appengine.NewContext(r)
-
 	// Save the image under a unique key, a hash of the image.
 	key := keyOf(buf.Bytes())
 	fo, err := os.Create("static/uploads/"+key,)
 	defer fo.Close()
 
 	fo.Write(buf.Bytes());
-	//ww
-	//key := datastore.NewKey(c, "Image", keyOf(buf.Bytes()), 0, nil)
-	//_, err = datastore.Put(c, key, &Image{buf.Bytes()})
-	//check(err)
 
-	// Redirect to /edit using the key.
-	//ww
-	//http.Redirect(w, r, "/edit?id="+key.StringID(), http.StatusFound)
 	http.Redirect(w, r, "/edit?id="+key, http.StatusFound)
 }
 
